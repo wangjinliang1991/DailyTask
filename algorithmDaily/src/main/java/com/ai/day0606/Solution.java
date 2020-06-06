@@ -1,4 +1,4 @@
-package com.asiainfo.day0606;
+package com.ai.day0606;
 
 import java.util.HashMap;
 import java.util.Map;
