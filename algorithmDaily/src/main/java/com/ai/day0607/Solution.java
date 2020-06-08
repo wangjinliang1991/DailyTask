@@ -17,8 +17,10 @@ public class Solution {
             int l1Val = l1 != null ? l1.val : 0;
             int l2Val = l2 != null ? l2.val : 0;
             int sumVal = l1Val + l2Val + carry;
+            // 0或1
             carry = sumVal / 10;
 
+            // 小于10，为sumVal 大于10，为个位的值
             ListNode sumNode = new ListNode(sumVal % 10);
             cursor.next = sumNode;
             cursor = sumNode;
