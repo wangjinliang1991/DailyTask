@@ -4,7 +4,7 @@
 实时查看tomcat日志文件查看：  
 `cd /home/tomcat/logs` #也可用相对目录 `tail –f catalina.out` #实时打印日志文件 `ctrl+c` #退出查看
 查看日志命令：
-```shell script
+```
 tail -f log.txt：循环查看
 tai -500f log.txt:查看最后500行
 cat file：查看短文件
