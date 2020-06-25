@@ -23,4 +23,23 @@
 假设我们的环境只能存储得下 32 位的有符号整数，则其数值范围为 [−231,  231 − 1]。请根据这个假设，如果反转后整数溢出那么就返回 0。
 
 ### 解决方案
-分正负
+重复弹出x的最后一位数字，并将它推到rev的后面，最后，rev和x相反
+
+```
+//pop operation
+pop = x%10;
+x /=10;
+
+// push operation
+temp = rev*10+pop;
+rev = temp;
+```
+当`temp=rev*10+pop`会导致溢出
+需要事先检查该语句是否会溢出
+
+假设rev为正数
+1. 如果`temp=rev*10+pop`导致溢出，一定有`rev>=INTMAX/10`
+2. 如果`rev>INTMAX/10`，那么`temp=rev*10+pop`一定会溢出
+3. 如果`rev==INTMAX/10`，只要`pop>7 temp=rev*10+pop` 就会溢出
+
+rev为负数同理 
