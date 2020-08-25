@@ -2,8 +2,10 @@ package com.ai;
 
 import com.ai.alg.RateLimitAlg;
 import com.ai.rule.ApiLimit;
-import com.ai.rule.RateLimitRule;
+import com.ai.rule.TrieRateLimitRule;
 import com.ai.rule.RuleConfig;
+import com.ai.rule.datasource.FileRuleConfigSource;
+import com.ai.rule.datasource.RuleConfigSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yaml.snakeyaml.Yaml;
@@ -22,29 +24,12 @@ public class RateLimiter {
     private static final Logger log = LoggerFactory.getLogger(RateLimiter.class);
     //为每个api在内存中存储限流计数器
     private ConcurrentHashMap<String, RateLimitAlg> counters = new ConcurrentHashMap<>();
-    private RateLimitRule rule;
+    private TrieRateLimitRule rule;
     public RateLimiter(){
-        //将限流规则配置文件ratelimiter-rule.yaml的内容读取到RuleConfig中
-        InputStream in = null;
-        RuleConfig ruleConfig = null;
-        try{
-            in = this.getClass().getResourceAsStream("/ratelimiter-rule.yaml");
-            if (in != null){
-                Yaml yaml = new Yaml();
-                ruleConfig = yaml.loadAs(in,RuleConfig.class);
-            }
-        }finally {
-            if (in != null){
-                try {
-                    in.close();
-                }catch (IOException e){
-                    log.error("close file error:{}",e);
-                }
-            }
-        }
-        
-        //将限流规则构建成支持快速查找的数据结构RateLimitRule
-        this.rule = new RateLimitRule(ruleConfig);
+        //改动主要在这里：调用RuleConfigSource类来实现配置加载
+        RuleConfigSource configSource = new FileRuleConfigSource();
+        RuleConfig ruleConfig = configSource.load();
+        this.rule = new TrieRateLimitRule(ruleConfig);
     }
     
     public boolean limit(String appId,String url) throws InternalError{
