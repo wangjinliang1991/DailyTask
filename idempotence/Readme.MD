@@ -65,3 +65,7 @@ public class IdempotenceSupportAdvice{
     }
 }
 ```
+
+### MVP代码涉及的问题
+- 代码可读性问题：有些函数的参数和返回值格式和意义需要说明，此外genId()改为generateId更好点
+- 代码可扩展性问题：按照现有代码，如果改变幂等号的存储方式和生成算法，代码修改会比较麻烦。另外，
