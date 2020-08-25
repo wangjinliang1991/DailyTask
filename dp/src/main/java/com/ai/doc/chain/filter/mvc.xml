@@ -1,0 +1,5 @@
+<mvc:interceptors>
+    <mvc:interceptor>
+        <bean class="com.ai.doc.chain.filter.LogInterceptor"/>
+    </mvc:interceptor>
+</mvc:interceptors>
